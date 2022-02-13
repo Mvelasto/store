@@ -4,37 +4,30 @@ const ProductsService = require('./../services/product.services');
 const router  = express.Router();
 const service = new ProductsService();
 
+
+// LISTAR
 router.get('/', (req, res) => {
   const products = service.find();
   res.json(products);
 })
 
+// LISTAR 1 ELEMENTO
 router.get('/:id', (req, res) => {
   const { id } = req.params; // <-- de todos los parametros solo quiero el id
-  if(id === "999"){
-    res.status(404).json({
-      message: "not found"
-    });
-  }else{
-    res.status(200).json(
-      {
-      "id": id,
-      "name": "producto 1",
-      "price": 1000
-      }
-    );
-  }
+  const product = service.findOne(id);
+  res.json(product);
+
 })
 
+// CREAR
 router.post('/', (req, res) => {
   const body = req.body;
-  res.status(201).json({
-    message: 'created',
-    data: body
-  })
+  const product = service.create(body);
+  res.json(product);
 })
 
-/* patch y put es igual solo q patch puede actualizar parametros de foma parcial
+/*ACTUALIZAR
+* patch y put es igual solo q patch puede actualizar parametros de foma parcial
 *  mientras q put debe actualizar el objeto completo
 */
 router.put('/:id', (req, res) => {
@@ -50,19 +43,15 @@ router.put('/:id', (req, res) => {
 router.patch('/:id', (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  res.json({
-    id: id,
-    message: 'update',
-    data: body
-  })
+  const product = service.update(id, body);
+  res.json(product)
 })
 
+// BORRAR
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
-    id: id,
-    message: 'deleted',
-  })
+  const product = service.delete(id);
+  res.json(product);
 })
 
 module.exports = router;
