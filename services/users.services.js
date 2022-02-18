@@ -19,7 +19,7 @@ class UserService {
     }
   }
 
-  create(data){
+  async create(data){
     const newUser = {
       id: faker.datatype.uuid(),
       ...data
@@ -27,27 +27,36 @@ class UserService {
     this.users.push(newUser);
     return {message: 'usuario creado', data: newUser }
   }
-  find(){
-    return this.users = [];
+  async find(){
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(this.users)
+      }, 1000);
+    })
+
+    //return this.users;
   }
-  findOne(id){
+  async findOne(id){
     return this.users.find(item => item.id === id);
   }
-  update(id, changes){
-    const index =  this.users.find(item => item.id === id);
+
+  async update(id, changes){
+    const index =  this.users.findIndex(item => item.id === id);
     if(index === -1) throw new Error('User not found');
     else{
       const user = this.users[index];
       this.users[index] = {...user, ...changes};
     }
     const element = {
-      message: 'update',
-      data: changes
+      message: 'update_',
+      data: this.users[index].name
     }
     return element;
   }
-  delete(id){
-    const index =  this.users.find(item => item.id === id);
+
+
+  async delete(id){
+    const index =  this.users.findIndex(item => item.id === id);
     if(index === -1) throw new Error('User not found');
     else this.users.splice(index, 1);
 
