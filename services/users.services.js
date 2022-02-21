@@ -42,7 +42,7 @@ class UserService {
 
   async update(id, changes){
     const index =  this.users.findIndex(item => item.id === id);
-    if(index === -1) throw new Error('User not found');
+    if(index === -1) throw new Error('User not found 😕');
     else{
       const user = this.users[index];
       this.users[index] = {...user, ...changes};

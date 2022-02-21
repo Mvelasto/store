@@ -32,14 +32,16 @@ router.get('/:id', async (req, res) => {
 })
 
 router.patch('/:id', async (req, res) => {
-  // try{
+  try{
     const { id } = req.params;
     const body = req.body;
     const user = await service.update(id, body);
     res.json(user)
-  /* }catch(error){
-    message: error.message
-  }*/
+  }catch(error){
+    res.status(404).json({
+      message: error.message
+    })
+  }
 })
 
 module.exports = router;

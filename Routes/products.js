@@ -12,10 +12,14 @@ router.get('/', (req, res) => {
 })
 
 // LISTAR 1 ELEMENTO
-router.get('/:id', (req, res) => {
-  const { id } = req.params; // <-- de todos los parametros solo quiero el id
-  const product = service.findOne(id);
-  res.json(product);
+router.get('/:id', (req, res, next) => {
+ try {
+    const { id } = req.params; // <-- de todos los parametros solo quiero el id
+    const product = service.findOne(id);
+    res.json(product);
+ } catch (error) {
+   next(error)
+ }
 
 })
 

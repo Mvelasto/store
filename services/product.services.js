@@ -41,7 +41,8 @@ class ProductsService {
   }
 
   findOne(id){
-      return this.products.find(item => item.id === id);
+    const name = this.getTotal();
+    return this.products.find(item => item.id === id);
   }
 
   update(id, changes){
